@@ -70,6 +70,9 @@ resource "google_container_cluster" "primary" {
         maximum       = lookup(resource_limits.value, "maximum")
       }
     }
+    auto_provisioning_defaults {
+      oauth_scopes = var.cluster_autoscaling.auto_provisioning_defaults.oauth_scopes
+    }
   }
 
   default_max_pods_per_node = var.default_max_pods_per_node

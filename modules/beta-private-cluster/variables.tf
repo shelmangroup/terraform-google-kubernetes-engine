@@ -213,6 +213,10 @@ variable "cluster_autoscaling" {
     max_cpu_cores       = number
     min_memory_gb       = number
     max_memory_gb       = number
+    auto_provisioning_defaults = object({
+      min_cpu_platform = string
+      oauth_scopes     = list(string)
+    })
   })
   default = {
     enabled             = false
@@ -221,6 +225,12 @@ variable "cluster_autoscaling" {
     min_cpu_cores       = 0
     max_memory_gb       = 0
     min_memory_gb       = 0
+    auto_provisioning_defaults = {
+      min_cpu_platform = null
+      oauth_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+    }
   }
   description = "Cluster autoscaling configuration. See [more details](https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#clusterautoscaling)"
 }
