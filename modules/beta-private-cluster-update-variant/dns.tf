@@ -21,13 +21,12 @@
  *****************************************/
 module "gcloud_delete_default_kube_dns_configmap" {
   source           = "terraform-google-modules/gcloud/google//modules/kubectl-wrapper"
-  version          = "~> 1.4"
+  version          = "~> 2.0.2"
   enabled          = (local.custom_kube_dns_config || local.upstream_nameservers_config) && ! var.skip_provisioners
   cluster_name     = google_container_cluster.primary.name
   cluster_location = google_container_cluster.primary.location
   project_id       = var.project_id
   upgrade          = var.gcloud_upgrade
-  skip_download    = var.gcloud_skip_download
 
 
   kubectl_create_command  = "${path.module}/scripts/delete-default-resource.sh kube-system configmap kube-dns"

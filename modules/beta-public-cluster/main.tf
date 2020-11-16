@@ -59,14 +59,14 @@ locals {
   }] : []
 
 
-
   custom_kube_dns_config      = length(keys(var.stub_domains)) > 0
   upstream_nameservers_config = length(var.upstream_nameservers) > 0
   network_project_id          = var.network_project_id != "" ? var.network_project_id : var.project_id
   zone_count                  = length(var.zones)
   cluster_type                = var.regional ? "regional" : "zonal"
   // auto upgrade by defaults only for regional cluster as long it has multiple masters versus zonal clusters have only have a single master so upgrades are more dangerous.
-  default_auto_upgrade = var.regional ? true : false
+  // When a release channel is used, node auto-upgrade are enabled and cannot be disabled.
+  default_auto_upgrade = var.regional || var.release_channel != null ? true : false
 
   cluster_subnet_cidr       = var.add_cluster_firewall_rules ? data.google_compute_subnetwork.gke_subnetwork[0].ip_cidr_range : null
   cluster_alias_ranges_cidr = var.add_cluster_firewall_rules ? { for range in toset(data.google_compute_subnetwork.gke_subnetwork[0].secondary_ip_range) : range.range_name => range.ip_cidr_range } : {}
@@ -83,16 +83,15 @@ locals {
 
   cluster_gce_pd_csi_config = var.gce_pd_csi_driver ? [{ enabled = true }] : [{ enabled = false }]
 
-  cluster_node_metadata_config = var.node_metadata == "UNSPECIFIED" ? [] : [{
-    node_metadata = var.node_metadata
-  }]
-
   cluster_authenticator_security_group = var.authenticator_security_group == null ? [] : [{
     security_group = var.authenticator_security_group
   }]
 
   cluster_sandbox_enabled = var.sandbox_enabled ? ["gvisor"] : []
 
+  cluster_node_metadata_config = var.node_metadata == "UNSPECIFIED" ? [] : [{
+    node_metadata = var.node_metadata
+  }]
 
   cluster_output_name           = google_container_cluster.primary.name
   cluster_output_regional_zones = google_container_cluster.primary.node_locations
@@ -146,6 +145,10 @@ locals {
   cluster_network_policy_enabled             = ! local.cluster_output_network_policy_enabled
   cluster_http_load_balancing_enabled        = ! local.cluster_output_http_load_balancing_enabled
   cluster_horizontal_pod_autoscaling_enabled = ! local.cluster_output_horizontal_pod_autoscaling_enabled
+  workload_identity_enabled                  = ! (var.identity_namespace == null || var.identity_namespace == "null")
+  cluster_workload_identity_config = ! local.workload_identity_enabled ? [] : var.identity_namespace == "enabled" ? [{
+    identity_namespace = "${var.project_id}.svc.id.goog" }] : [{ identity_namespace = var.identity_namespace
+  }]
   # BETA features
   cluster_istio_enabled                    = ! local.cluster_output_istio_disabled
   cluster_cloudrun_enabled                 = var.cloudrun
@@ -154,10 +157,6 @@ locals {
   cluster_intranode_visibility_enabled     = local.cluster_output_intranode_visbility_enabled
   cluster_vertical_pod_autoscaling_enabled = local.cluster_output_vertical_pod_autoscaling_enabled
 
-  workload_identity_enabled = ! (var.identity_namespace == null || var.identity_namespace == "null")
-  cluster_workload_identity_config = ! local.workload_identity_enabled ? [] : var.identity_namespace == "enabled" ? [{
-    identity_namespace = "${var.project_id}.svc.id.goog" }] : [{ identity_namespace = var.identity_namespace
-  }]
   # /BETA features
 
   cluster_maintenance_window_is_recurring = var.maintenance_recurrence != "" && var.maintenance_end_time != "" ? [1] : []

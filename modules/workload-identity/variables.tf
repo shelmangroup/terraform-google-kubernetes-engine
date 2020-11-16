@@ -15,7 +15,7 @@
  */
 
 variable "name" {
-  description = "Name for both service accounts"
+  description = "Name for both service accounts. The GCP SA will be truncated to the first 30 chars if necessary."
   type        = string
 }
 
@@ -58,4 +58,10 @@ variable "automount_service_account_token" {
   description = "Enable automatic mounting of the service account token"
   default     = false
   type        = bool
+}
+
+variable "roles" {
+  type        = list(string)
+  default     = []
+  description = "(optional) A list of roles to be added to the created Service account"
 }

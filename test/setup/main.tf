@@ -20,7 +20,7 @@ resource "random_id" "random_project_id_suffix" {
 
 module "gke-project-1" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 8.0"
+  version = "~> 9.1.0"
 
   name                 = "ci-gke-${random_id.random_project_id_suffix.hex}"
   random_project_id    = true
@@ -32,24 +32,24 @@ module "gke-project-1" {
   auto_create_network = true
 
   activate_apis = [
-    "bigquery.googleapis.com",
     "cloudkms.googleapis.com",
     "cloudresourcemanager.googleapis.com",
-    "compute.googleapis.com",
     "container.googleapis.com",
-    "containerregistry.googleapis.com",
-    "iam.googleapis.com",
-    "iamcredentials.googleapis.com",
-    "oslogin.googleapis.com",
     "pubsub.googleapis.com",
     "serviceusage.googleapis.com",
     "storage-api.googleapis.com",
+  ]
+  activate_api_identities = [
+    {
+      api   = "container.googleapis.com"
+      roles = ["roles/cloudkms.cryptoKeyEncrypterDecrypter", "roles/container.serviceAgent"]
+    },
   ]
 }
 
 module "gke-project-2" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 8.0"
+  version = "~> 9.1.0"
 
   name                 = "ci-gke-${random_id.random_project_id_suffix.hex}"
   random_project_id    = true
@@ -59,25 +59,25 @@ module "gke-project-2" {
   skip_gcloud_download = true
 
   activate_apis = [
-    "bigquery.googleapis.com",
     "cloudkms.googleapis.com",
     "cloudresourcemanager.googleapis.com",
-    "compute.googleapis.com",
     "container.googleapis.com",
-    "containerregistry.googleapis.com",
-    "iam.googleapis.com",
-    "iamcredentials.googleapis.com",
-    "oslogin.googleapis.com",
     "pubsub.googleapis.com",
     "serviceusage.googleapis.com",
     "storage-api.googleapis.com",
+  ]
+  activate_api_identities = [
+    {
+      api   = "container.googleapis.com"
+      roles = ["roles/cloudkms.cryptoKeyEncrypterDecrypter", "roles/container.serviceAgent"]
+    },
   ]
 }
 
 # apis as documented https://cloud.google.com/service-mesh/docs/gke-install-new-cluster#setting_up_your_project
 module "gke-project-asm" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 8.0"
+  version = "~> 9.1.0"
 
   name                 = "ci-gke-asm-${random_id.random_project_id_suffix.hex}"
   random_project_id    = true
@@ -87,17 +87,11 @@ module "gke-project-asm" {
   skip_gcloud_download = true
 
   activate_apis = [
-    "container.googleapis.com",
-    "compute.googleapis.com",
-    "monitoring.googleapis.com",
     "logging.googleapis.com",
     "meshca.googleapis.com",
     "meshtelemetry.googleapis.com",
     "meshconfig.googleapis.com",
-    "iamcredentials.googleapis.com",
     "anthos.googleapis.com",
-    "gkeconnect.googleapis.com",
-    "gkehub.googleapis.com",
     "cloudresourcemanager.googleapis.com",
   ]
 }
