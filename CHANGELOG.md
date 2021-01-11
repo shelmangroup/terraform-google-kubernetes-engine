@@ -6,12 +6,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [12.3.0](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v12.2.0...v12.3.0) (2020-12-09)
+
+
+### Features
+
+* Add instance_group_urls output ([#618](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/618)) ([5623d51](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/5623d51885b5d3ed44b29264ae86b5d537feb506))
+* Enable vertical autoscaling in GA modules ([#758](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/758)) ([2e4f36a](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/2e4f36aef7da1840303ff0a445acc6b560aa8a7c))
+
+## [12.2.0](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v12.1.0...v12.2.0) (2020-12-04)
+
+
+### Features
+
+* Add option for CPU manager policy ([#749](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/749)) ([721f846](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/721f846b117e36808c559ed7459561d4beca9e66))
+* added notification_config block to beta submodules ([#752](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/752)) ([4a85321](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/4a85321214247a1b83e751c45dfd71f4e3c017b1))
+* Enable ACM feature on hub ([#722](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/722)) ([c199dae](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/c199dae1503e05acecf138e07a892ab22f548b80))
+* Grant roles/artifactregistry.reader to created service account when grant_registry_access is true ([#748](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/748)) ([166fb24](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/166fb24220958745567b0fc15f037d3663a7bd0b))
+
+
+### Bug Fixes
+
+* Make bash scripts more portable by referencing `/usr/bin/env` ([#756](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/756)) ([24d6af6](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/24d6af65d6ed58b3ee32a5b26f360a2fd8594ddd))
+* Remove max Terraform version constraint, allowing 0.14 compatibility ([#757](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/757)) ([eb95de9](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/eb95de9c63fc98f1fc09554ac8a3e0ed681488ea))
+
+## [12.1.0](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v12.0.0...v12.1.0) (2020-11-10)
+
+
+### Features
+
+* Add cluster_telemetry var to beta submodules ([#728](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/728)) ([e8291f0](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/e8291f03a1a91c43425177151c8e78d218eed2f1))
+* Add support for Cloud Run load balancer configuration ([#740](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/740)) ([685a2db](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/685a2db99f5943c2f74f931cde6923e596896d02))
+* Support service account impersonation for wait-for-cluster script ([#729](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/729)) ([75a56f1](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/75a56f11c8387cdd8cb4cf9e80024af07d34a92f))
+
+
+### Bug Fixes
+
+* fallback to name if location is not set ([#736](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/736)) ([63d7f5e](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/63d7f5e7128c9505cc08b9469d6854e9d825ed4b))
+* multiple cluster wait-for-cluster.sh ([#734](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/734)) ([6682911](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/66829118db2e1fe946c79d0493bf83ed912b1837))
+* Updating the Binary Authorization submodule to allow Terraform 0.13 ([#726](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/726)) ([df98cf9](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/df98cf9ade438bd26d7c2182f2e83f0415a24d53))
+
 ## [12.0.0](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/compare/v11.1.0...v12.0.0) (2020-10-16)
 
 
 ### ⚠ BREAKING CHANGES
 
+* This is a backwards-incompatible release. See the [upgrade guide](https://github.com/terraform-google-modules/terraform-google-kubernetes-engine/blob/master/docs/upgrading_to_v12.0.md) for details.
 * GKE Hub functionality has been removed from ASM module(#665). Users can leverage Hub module for this functionality.
+* Removed the gcloud_skip_download variable and defaulted to never downloading gcloud. ([#712](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/712)) ([f84e838](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/f84e838bf8c8d01f8f60176a2b3140800cf3ec3b))
+
 
 ### Features
 
@@ -33,7 +76,6 @@ Extending the adopted spec, each change should have a link to its corresponding 
 * Fix broken link in README.md ([#691](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/691)) ([6f0e749](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/6f0e7494f80af70850e50e35e004516a9e92b85f))
 * Fix skip_provisioners enabled flag for wait_for_cluster ([#669](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/669)) ([e293a43](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/e293a43d7327d9055fa73aacdf0b977ba0481c48))
 * remove hub from asm module ([#670](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/670)) ([6f419c3](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/6f419c3f048b4cdaa4d954bf9df1fbd87a0749ae))
-* removing gcloud_skip_download variable ([#712](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/712)) ([f84e838](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/f84e838bf8c8d01f8f60176a2b3140800cf3ec3b))
 * set project number for ASM install ([#692](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/692)) ([c5d1e4d](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/c5d1e4db2034b4395055322c28abd30248609cba))
 * Shorten GSA account_id if necessary ([#666](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/issues/666)) ([0225458](https://www.github.com/terraform-google-modules/terraform-google-kubernetes-engine/commit/02254587d9cf01f138a4096673967402a9ab00fc))
 
